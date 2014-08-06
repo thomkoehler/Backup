@@ -38,6 +38,7 @@ data Backup = Backup
       _bIncludeFilespecs :: [FilesSpec],
       _bExcludeFilespecs :: [FilesSpec]
    }
+   deriving(Show)
 
 makeLenses ''Backup
 
@@ -48,6 +49,7 @@ data BackupSuite = BackupSuite
       _bsDir :: !FilePath,
       _bsBackups :: [Backup]
    }
+   deriving(Show)
 
 makeLenses ''BackupSuite
 

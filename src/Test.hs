@@ -1,7 +1,6 @@
 
 -----------------------------------------------------------------------------------------------------------------------
 
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -F -pgmF htfpp #-}
 
@@ -16,6 +15,7 @@ import BackupSuite
 
 -----------------------------------------------------------------------------------------------------------------------
 
+testDir :: FilePath
 testDir = "./Test"
 
 main :: IO()
@@ -28,7 +28,8 @@ main = do
 
 test_compileSimpleYaml :: IO ()
 test_compileSimpleYaml = do 
-   bs :: (Maybe BackupSuite) <- decodeFile "Simple.xaml"
+   bs  <- decodeFile "Simple.xaml" :: IO (Maybe BackupSuite)
+   print bs
    return ()
 
 -----------------------------------------------------------------------------------------------------------------------
