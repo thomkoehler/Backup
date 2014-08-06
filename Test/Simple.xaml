@@ -1,2 +1,17 @@
 name: SimpleSuite
-dir: .
+dir: "."
+backups: [
+   {
+      name: Backup1,
+      enabled: 1,
+      include: [
+         {type: file, name: "c:\\Temp\\Test.txt"},
+         {type: dir, name: "c:\\Temp", pattern: "*.*", recursiv: 1}
+      ],
+      
+      include: [
+         {type: file, name: "c:\\Temp\\Test1.txt"},
+         {type: dir, name: "c:\\Temp", pattern: "*.cpp", recursiv: 1}
+      ],
+   }
+]
