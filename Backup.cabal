@@ -7,6 +7,24 @@ author:         Koehler
 executable Backup
   hs-source-dirs:  src
   main-is:         Main.hs
-  build-depends:   base >= 4
+  build-depends:   
+                   base >= 4,
+                   filepath >=1.3.0 && <1.4,
+                   Glob >=0.7.5 && <0.8,
+                   lens,
+                   aeson,
+                   yaml
   ghc-options:     -Wall
+  other-modules:   BackupSuite
+
+test-suite Test
+  type:            exitcode-stdio-1.0
+  main-is:         Test.hs
+  ghc-options:     -Wall -rtsopts
+  build-depends:   
+                   base >= 4, HTF > 0.9,
+                   directory >=1.2.0 && <1.3,
+                   yaml
+  other-modules:   BackupSuite
+  hs-source-dirs:  src
 
