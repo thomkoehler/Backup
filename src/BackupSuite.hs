@@ -26,7 +26,7 @@ data FilesSpec
          _dpFilePattern :: !Pattern,
          _dbRecursiv :: !Bool
       }
-   deriving(Show)
+   deriving(Show, Eq)
 
 makeLenses ''FilesSpec
 
@@ -38,7 +38,7 @@ data Backup = Backup
       _bIncludeFilespecs :: [FilesSpec],
       _bExcludeFilespecs :: [FilesSpec]
    }
-   deriving(Show)
+   deriving(Show, Eq)
 
 makeLenses ''Backup
 
@@ -49,7 +49,7 @@ data BackupSuite = BackupSuite
       _bsDir :: !FilePath,
       _bsBackups :: [Backup]
    }
-   deriving(Show)
+   deriving(Show, Eq)
 
 makeLenses ''BackupSuite
 

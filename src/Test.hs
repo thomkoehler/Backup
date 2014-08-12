@@ -10,6 +10,8 @@ import Test.Framework
 
 import System.Directory
 import Data.Yaml
+import System.FilePath.Glob(compile)
+
 
 import BackupSuite
 
@@ -26,10 +28,37 @@ main = do
 
 -----------------------------------------------------------------------------------------------------------------------
 
+simpleTestBackupSuite :: BackupSuite
+simpleTestBackupSuite = BackupSuite
+   {
+      _bsName = "SimpleSuite",
+      _bsDir = ".",
+      _bsBackups = 
+      [
+         Backup
+            {
+               _bName = "Backup1",
+               _bEnabled = True,
+               _bIncludeFilespecs =
+               [
+                  FileSpec "c:\\Temp\\Test.txt",
+                  DirSpec "c:\\Temp" (compile "*.*") True 
+               ],
+               
+               _bExcludeFilespecs =
+               [
+                  FileSpec "c:\\Temp\\Test1.txt",
+                  DirSpec "c:\\Temp" (compile "*.cpp") True 
+               ]
+            }
+      ]
+   }
+
+
 test_compileSimpleYaml :: IO ()
 test_compileSimpleYaml = do 
    bs  <- decodeFile "Simple.xaml" :: IO (Maybe BackupSuite)
-   print bs
+   assertEqual (Just simpleTestBackupSuite) bs
    return ()
 
 -----------------------------------------------------------------------------------------------------------------------

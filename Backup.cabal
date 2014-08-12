@@ -11,7 +11,7 @@ executable Backup
                    base >= 4,
                    filepath >=1.3.0 && <1.4,
                    Glob >=0.7.5 && <0.8,
-                   lens,
+                   lens >=4.3 && <4.4,
                    aeson,
                    yaml
   ghc-options:     -Wall
