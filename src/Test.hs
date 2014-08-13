@@ -57,7 +57,7 @@ simpleTestBackupSuite = BackupSuite
 
 test_compileSimpleYaml :: IO ()
 test_compileSimpleYaml = do 
-   bs  <- decodeFile "Simple.xaml" :: IO (Maybe BackupSuite)
+   bs  <- decodeFile "Simple.xaml"
    assertEqual (Just simpleTestBackupSuite) bs
    return ()
 

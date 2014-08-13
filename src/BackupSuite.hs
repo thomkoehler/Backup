@@ -65,7 +65,7 @@ instance FromJSON FilesSpec where
             r <- v .:? "recursiv" .!= False 
             return $ DirSpec n (compile p) r
             
-         "file" -> FileSpec <$> v .: "file"
+         "file" -> FileSpec <$> v .: "name"
          
          _      -> error $ "type " ++ filespecType ++ "is unknown."
        

@@ -3,15 +3,15 @@ dir: "."
 backups: [
    {
       name: Backup1,
-      enabled: 1,
+      enabled: y,
       include: [
          {type: file, name: "c:\\Temp\\Test.txt"},
-         {type: dir, name: "c:\\Temp", pattern: "*.*", recursiv: 1}
+         {type: dir, name: "c:\\Temp", pattern: "*.*", recursiv: y}
       ],
       
-      include: [
+      exclude: [
          {type: file, name: "c:\\Temp\\Test1.txt"},
-         {type: dir, name: "c:\\Temp", pattern: "*.cpp", recursiv: 1}
+         {type: dir, name: "c:\\Temp", pattern: "*.cpp", recursiv: y}
       ],
    }
 ]
