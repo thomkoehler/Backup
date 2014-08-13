@@ -1,7 +1,7 @@
 
 -----------------------------------------------------------------------------------------------------------------------
 
-module DirScanner where
+module DirScanner(list) where
 
 import System.Filesystem(listDir)
 import System.Directory(doesFileExist, canonicalizePath)
@@ -9,6 +9,7 @@ import Control.Monad(foldM)
 import Data.Set(Set)
 import qualified Data.Set as Set
 import System.FilePath.Glob(match)
+import Control.Lens
 
 import BackupSuite
 
@@ -48,5 +49,15 @@ instance ListFiles Backup where
          return $ fpset `Set.union` (filesIncludes `Set.difference` filesExcludes)
       else
          return fpset 
+
+instance ListFiles BackupSuite where
+   listFiles bs = listFiles $ bs ^. bsBackups
+
+
+list :: BackupSuite -> IO [FilePath]
+list bs = do
+   res <- listFiles bs Set.empty
+   return $ Set.toList res 
+
 
 -----------------------------------------------------------------------------------------------------------------------
