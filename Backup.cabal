@@ -15,7 +15,8 @@ executable Backup
                    aeson,
                    yaml,
                    misc-tools,
-                   containers
+                   containers,
+                   system-filepath
   ghc-options:     -Wall
   other-modules:   
                    BackupSuite,
@@ -27,8 +28,7 @@ test-suite Test
   ghc-options:     -Wall -rtsopts
   build-depends:   
                    base >= 4, HTF > 0.9,
-                   directory >=1.2.0 && <1.3,
-                   yaml
+                   directory >=1.2.0 && <1.3
   other-modules:   BackupSuite
   hs-source-dirs:  src
 

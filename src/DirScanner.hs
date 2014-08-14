@@ -1,4 +1,3 @@
-
 -----------------------------------------------------------------------------------------------------------------------
 
 module DirScanner(list) where
@@ -9,6 +8,8 @@ import Control.Monad(foldM)
 import Data.Set(Set)
 import qualified Data.Set as Set
 import System.FilePath.Glob(match)
+import System.FilePath.Lens(filename)
+import Control.Lens
 
 import BackupSuite
 
@@ -31,8 +32,12 @@ instance ListFiles FilesSpec where
             return fpset
             
    listFiles (DirSpec dir pattern rec) fpset = do
-      files <- listDir dir (match pattern) rec
-      return $ fpset `Set.union` Set.fromList files
+      files <- listDir dir matchFilepath rec
+      canonicalizedFiles <- mapM canonicalizePath files
+      return $ fpset `Set.union` Set.fromList canonicalizedFiles
+      where
+         matchFilepath :: String -> Bool
+         matchFilepath path = match pattern $ path ^. filename 
 
 
 instance ListFiles l => ListFiles [l] where

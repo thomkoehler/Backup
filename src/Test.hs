@@ -11,6 +11,7 @@ import Test.Framework
 import System.Directory
 import Data.Yaml
 import System.FilePath.Glob(compile)
+import Data.List(sort)
 
 
 import BackupSuite
@@ -80,7 +81,14 @@ test_simpleFile = testBackupFileList simpleFileBackup ["dir0/file0.txt"]
 
 
 test_dir :: IO ()
-test_dir = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.txt"]
+test_dir = testBackupFileList dirBackup 
+   [
+      "dir0/file0.txt", 
+      "dir0/file0.cpp", 
+      "dir1/file1.txt", 
+      "dir1/file1.cpp", 
+      "Simple.xaml"
+   ]
    where
       dirBackup = Backup
          {
@@ -90,7 +98,30 @@ test_dir = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.txt"]
             [
                DirSpec "." (compile "*.*") True
             ],
-            _bExcludeFilespecs = []
+            _bExcludeFilespecs = 
+            [
+               DirSpec ".HTF" (compile "*.*") True
+            ]
+         }
+         
+         
+test_dirExclude :: IO ()
+test_dirExclude = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.txt"]
+   where
+      dirBackup = Backup
+         {
+            _bName = "Dir",
+            _bEnabled = True,
+            _bIncludeFilespecs =
+            [
+               DirSpec "." (compile "*.*") True
+            ],
+            _bExcludeFilespecs = 
+            [
+               DirSpec ".HTF" (compile "*.*") True,
+               DirSpec "." (compile "*.cpp") True,
+               FileSpec "Simple.xaml"
+            ]
          }
 
 
@@ -98,7 +129,7 @@ testBackupFileList :: Backup -> [FilePath] -> IO ()
 testBackupFileList backup expectedFileList = do
    fl <- list backup
    expected <- mapM canonicalizePath expectedFileList 
-   assertEqual expected fl
+   assertEqual (sort expected) fl
 
 
 -----------------------------------------------------------------------------------------------------------------------
