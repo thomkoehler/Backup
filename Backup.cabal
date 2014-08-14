@@ -16,7 +16,8 @@ executable Backup
                    yaml,
                    misc-tools,
                    containers,
-                   system-filepath
+                   temporary,
+                   process
   ghc-options:     -Wall
   other-modules:   
                    BackupSuite,

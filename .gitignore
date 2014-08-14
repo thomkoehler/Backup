@@ -3,3 +3,6 @@
 cabal.sandbox.config
 dist/
 Test/.HTF/
+*.dll
+*.7z
+*.exe

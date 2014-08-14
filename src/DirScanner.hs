@@ -3,7 +3,7 @@
 module DirScanner(list) where
 
 import System.Filesystem(listDir)
-import System.Directory(doesFileExist, canonicalizePath)
+import System.Directory(doesFileExist, doesDirectoryExist, canonicalizePath)
 import Control.Monad(foldM)
 import Data.Set(Set)
 import qualified Data.Set as Set
@@ -32,9 +32,14 @@ instance ListFiles FilesSpec where
             return fpset
             
    listFiles (DirSpec dir pattern rec) fpset = do
-      files <- listDir dir matchFilepath rec
-      canonicalizedFiles <- mapM canonicalizePath files
-      return $ fpset `Set.union` Set.fromList canonicalizedFiles
+      dirExists <- doesDirectoryExist dir
+      if dirExists
+         then do
+            files <- listDir dir matchFilepath rec
+            canonicalizedFiles <- mapM canonicalizePath files
+            return $ fpset `Set.union` Set.fromList canonicalizedFiles
+         else
+            return fpset
       where
          matchFilepath :: String -> Bool
          matchFilepath path = match pattern $ path ^. filename 
