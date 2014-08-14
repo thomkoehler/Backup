@@ -9,7 +9,6 @@ import Control.Monad(foldM)
 import Data.Set(Set)
 import qualified Data.Set as Set
 import System.FilePath.Glob(match)
-import Control.Lens
 
 import BackupSuite
 
@@ -50,13 +49,10 @@ instance ListFiles Backup where
       else
          return fpset 
 
-instance ListFiles BackupSuite where
-   listFiles bs = listFiles $ bs ^. bsBackups
 
-
-list :: BackupSuite -> IO [FilePath]
-list bs = do
-   res <- listFiles bs Set.empty
+list :: Backup -> IO [FilePath]
+list backup = do
+   res <- listFiles backup Set.empty
    return $ Set.toList res 
 
 

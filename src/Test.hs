@@ -14,6 +14,7 @@ import System.FilePath.Glob(compile)
 
 
 import BackupSuite
+import DirScanner
 
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -60,5 +61,44 @@ test_compileSimpleYaml = do
    bs  <- decodeFile "Simple.xaml"
    assertEqual (Just simpleTestBackupSuite) bs
    return ()
+
+-----------------------------------------------------------------------------------------------------------------------
+
+test_simpleFile :: IO ()
+test_simpleFile = testBackupFileList simpleFileBackup ["dir0/file0.txt"] 
+   where
+      simpleFileBackup = Backup
+         {
+            _bName = "Simple File",
+            _bEnabled = True,
+            _bIncludeFilespecs =
+            [
+               FileSpec "dir0/file0.txt"
+            ],
+            _bExcludeFilespecs = []
+         }
+
+
+test_dir :: IO ()
+test_dir = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.txt"]
+   where
+      dirBackup = Backup
+         {
+            _bName = "Dir",
+            _bEnabled = True,
+            _bIncludeFilespecs =
+            [
+               DirSpec "." (compile "*.*") True
+            ],
+            _bExcludeFilespecs = []
+         }
+
+
+testBackupFileList :: Backup -> [FilePath] -> IO ()
+testBackupFileList backup expectedFileList = do
+   fl <- list backup
+   expected <- mapM canonicalizePath expectedFileList 
+   assertEqual expected fl
+
 
 -----------------------------------------------------------------------------------------------------------------------
