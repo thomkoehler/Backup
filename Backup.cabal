@@ -20,7 +20,8 @@ executable Backup
   ghc-options:     -Wall
   other-modules:   
                    BackupSuite,
-                   DirScanner
+                   DirScanner,
+                   Compressor
 
 test-suite Test
   type:            exitcode-stdio-1.0
@@ -29,6 +30,8 @@ test-suite Test
   build-depends:   
                    base >= 4, HTF > 0.9,
                    directory >=1.2.0 && <1.3
-  other-modules:   BackupSuite
+  other-modules:   
+                   BackupSuite,
+                   Compressor
   hs-source-dirs:  src
 
