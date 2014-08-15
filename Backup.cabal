@@ -18,7 +18,9 @@ executable Backup
                    containers,
                    temporary,
                    process,
-                   bytestring
+                   bytestring,
+                   time,
+                   old-locale
   ghc-options:     -Wall
   other-modules:   
                    BackupSuite,
