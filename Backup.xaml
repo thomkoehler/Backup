@@ -1,0 +1,18 @@
+[
+   {
+      name: Suite,
+      dir: ".",
+      backups: [
+         {
+            name: Haskell,
+            enabled: y,
+            include: [
+               {type: dir, name: "src", pattern: "*.hs", recursiv: y},
+               {type: file, name: "Backup.cabal"}
+            ],
+            
+            exclude: [],
+         }
+      ]
+   }
+]
