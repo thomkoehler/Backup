@@ -5,7 +5,8 @@ module Compressor(compress) where
 
 import System.IO.Temp(withSystemTempFile)
 import System.IO(hPutStrLn, hClose)
-import Control.Monad(forM_)
+import System.Directory(doesFileExist)
+import Control.Monad(forM_, when)
 import System.Process(system)
 import System.Exit(ExitCode(..))
 import Text.Printf(printf)
@@ -17,9 +18,12 @@ compress = compress_rar
 
 
 compress_rar :: [String] -> String -> IO ()
-compress_rar fileList archiveName =
+compress_rar fileList archiveName = do
+   let properAchiveName = archiveName ++ ".rar"
+   archiveExists <- doesFileExist properAchiveName
+   when archiveExists $ error $ printf "Archive \"%s\" allready exists." properAchiveName  
    withListFile fileList $ \fileListName -> do
-      let cmd = printf "rar a \"%s\" \"@%s\" " archiveName fileListName
+      let cmd = printf "rar a \"%s\" \"@%s\" " properAchiveName fileListName
       system' cmd
 
 

@@ -1,17 +1,21 @@
-name: SimpleSuite
-dir: "."
-backups: [
+[
    {
-      name: Backup1,
-      enabled: y,
-      include: [
-         {type: file, name: "c:\\Temp\\Test.txt"},
-         {type: dir, name: "c:\\Temp", pattern: "*.*", recursiv: y}
-      ],
-      
-      exclude: [
-         {type: file, name: "c:\\Temp\\Test1.txt"},
-         {type: dir, name: "c:\\Temp", pattern: "*.cpp", recursiv: y}
-      ],
+      name: SimpleSuite,
+      dir: ".",
+      backups: [
+         {
+            name: Backup1,
+            enabled: y,
+            include: [
+               {type: file, name: "c:\\Temp\\Test.txt"},
+               {type: dir, name: "c:\\Temp", pattern: "*.*", recursiv: y}
+            ],
+            
+            exclude: [
+               {type: file, name: "c:\\Temp\\Test1.txt"},
+               {type: dir, name: "c:\\Temp", pattern: "*.cpp", recursiv: y}
+            ],
+         }
+      ]
    }
 ]

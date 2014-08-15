@@ -17,12 +17,14 @@ executable Backup
                    misc-tools,
                    containers,
                    temporary,
-                   process
+                   process,
+                   bytestring
   ghc-options:     -Wall
   other-modules:   
                    BackupSuite,
                    DirScanner,
-                   Compressor
+                   Compressor,
+                   Options
 
 test-suite Test
   type:            exitcode-stdio-1.0
@@ -33,6 +35,7 @@ test-suite Test
                    directory >=1.2.0 && <1.3
   other-modules:   
                    BackupSuite,
-                   Compressor
+                   Compressor,
+                   Options
   hs-source-dirs:  src
 

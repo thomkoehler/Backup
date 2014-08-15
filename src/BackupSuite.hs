@@ -7,11 +7,14 @@
 
 module BackupSuite where
 
+import Prelude hiding(readFile)
 import Control.Applicative
 import Control.Monad
 import System.FilePath.Glob(Pattern, compile)
 import Data.Aeson
 import Control.Lens.TH
+import qualified Data.Yaml as Y
+import Data.ByteString(readFile)
 
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -92,5 +95,12 @@ instance FromJSON BackupSuite where
          
    parseJSON _          = mzero 
         
+         
+decodeFile :: FilePath -> IO [BackupSuite]
+decodeFile file = do
+   contents <- readFile file
+   case Y.decodeEither contents of
+      Left err  -> error err
+      Right bss -> return bss 
          
 -----------------------------------------------------------------------------------------------------------------------

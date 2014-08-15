@@ -9,7 +9,6 @@ module Main(main) where
 import Test.Framework
 
 import System.Directory
-import Data.Yaml
 import System.FilePath.Glob(compile)
 import Data.List(sort)
 
@@ -60,7 +59,7 @@ simpleTestBackupSuite = BackupSuite
 test_compileSimpleYaml :: IO ()
 test_compileSimpleYaml = do 
    bs  <- decodeFile "Simple.xaml"
-   assertEqual (Just simpleTestBackupSuite) bs
+   assertEqual [simpleTestBackupSuite] bs
    return ()
 
 -----------------------------------------------------------------------------------------------------------------------

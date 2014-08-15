@@ -3,35 +3,19 @@
 
 module Main where
 
+import System.Environment(getArgs)
 
-import System.FilePath.Glob(compile)
-
+import Options
 import BackupSuite
-import Compressor
-import DirScanner
 
 -----------------------------------------------------------------------------------------------------------------------
 
-main::IO()
+main :: IO()
 main = do
-   fileList <- list dirBackup
-   print fileList
-   compress fileList "Test7z" 
-
-
-dirBackup = Backup
-   {
-      _bName = "Dir",
-      _bEnabled = True,
-      _bIncludeFilespecs =
-      [
-         DirSpec "Test" (compile "*.*") True
-      ],
-      _bExcludeFilespecs = 
-      [
-         DirSpec "Test/.HTF" (compile "*.*") True
-      ]
-   }
-
+   argv <- getArgs
+   opts <- getOptions argv
+   suites <- decodeFile $ optInput opts
+   print suites
+   return ()
 
 -----------------------------------------------------------------------------------------------------------------------
