@@ -12,7 +12,15 @@
             ],
             
             exclude: [],
+         },
+         {
+            name: Git,
+            enabled: n,
+            include: [
+               {type: dir, name: ".git", pattern: "*.", recursiv: y},
+            ]
          }
+         
       ]
    }
 ]
