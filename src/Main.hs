@@ -28,11 +28,12 @@ main = do
 doBackupSuite :: BackupSuite -> IO ()
 doBackupSuite suite = do
    let targetDir = suite ^. bsDir
-   forM_ (suite ^. bsBackups) $ doBackup targetDir 
+   currTime <- currentTimeStr
+   forM_ (suite ^. bsBackups) $ doBackup targetDir currTime 
 
 
-doBackup :: FilePath -> Backup -> IO ()
-doBackup targetDir backup = 
+doBackup :: FilePath -> String -> Backup -> IO ()
+doBackup targetDir currTime backup = 
    if backup ^. bEnabled
       then do
          fileList <- list backup
@@ -40,7 +41,6 @@ doBackup targetDir backup =
             then 
                printf "Backup %s is empty." $ backup ^. bName
             else do
-               currTime <- currentTimeStr
                compress fileList $ targetDir ++ "/" ++ (backup ^. bName) ++ currTime
       else
          printf "Backup %s is diabled." $ backup ^. bName       
