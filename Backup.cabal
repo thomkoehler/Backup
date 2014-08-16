@@ -20,7 +20,8 @@ executable Backup
                    process,
                    bytestring,
                    time,
-                   old-locale
+                   old-locale,
+                   directory
   ghc-options:     -Wall
   other-modules:   
                    BackupSuite,
