@@ -50,7 +50,7 @@ instance ListFiles l => ListFiles [l] where
     
 
 instance ListFiles Backup where
-   listFiles  (Backup _ enabled includes excludes) fpset = do
+   listFiles  (Backup _ enabled _ includes excludes) fpset = do
    if enabled
       then do      
          filesIncludes <- listFiles includes Set.empty

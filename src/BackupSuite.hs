@@ -38,6 +38,7 @@ data Backup = Backup
    {
       _bName :: !String,
       _bEnabled :: !Bool,
+      _bPassword :: Maybe String,
       _bIncludeFilespecs :: [FilesSpec],
       _bExcludeFilespecs :: [FilesSpec]
    }
@@ -80,6 +81,7 @@ instance FromJSON Backup where
       Backup <$> 
          v .: "name" <*> 
          v .:? "enabled" .!= True <*> 
+         v .:? "password" .!= Nothing <*>
          v .: "include" <*> 
          v .:? "exclude" .!= []
                                 

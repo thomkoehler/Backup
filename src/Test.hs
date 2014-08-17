@@ -40,6 +40,7 @@ simpleTestBackupSuite = BackupSuite
             {
                _bName = "Backup1",
                _bEnabled = True,
+               _bPassword = Nothing,
                _bIncludeFilespecs =
                [
                   FileSpec "c:\\Temp\\Test.txt",
@@ -71,6 +72,7 @@ test_simpleFile = testBackupFileList simpleFileBackup ["dir0/file0.txt"]
          {
             _bName = "Simple File",
             _bEnabled = True,
+            _bPassword = Nothing,
             _bIncludeFilespecs =
             [
                FileSpec "dir0/file0.txt"
@@ -93,6 +95,7 @@ test_dir = testBackupFileList dirBackup
          {
             _bName = "Dir",
             _bEnabled = True,
+            _bPassword = Nothing,
             _bIncludeFilespecs =
             [
                DirSpec "." (compile "*.*") True
@@ -111,6 +114,7 @@ test_dirExclude = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.tx
          {
             _bName = "Dir",
             _bEnabled = True,
+            _bPassword = Nothing,
             _bIncludeFilespecs =
             [
                DirSpec "." (compile "*.*") True

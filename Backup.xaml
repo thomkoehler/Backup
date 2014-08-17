@@ -6,6 +6,7 @@
          {
             name: Haskell,
             enabled: y,
+            password: "",
             include: [
                {type: dir, name: "src", pattern: "*.hs", recursiv: y},
                {type: file, name: "Backup.cabal"}
