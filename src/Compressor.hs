@@ -57,14 +57,21 @@ getPassword achiveName inPassword = case inPassword of
    Nothing -> return Nothing
    
    Just "" -> do
-      printf "Archive %s password: " achiveName
+      printf "Archive %s\n" achiveName
+      putStr "Password : "
       hFlush stdout
-      pass <- withEcho False getLine
+      pass0 <- withEcho False getLine
       putChar '\n'
-      return $ Just pass
- 
+      putStr "Confirm password : "
+      hFlush stdout
+      pass1 <- withEcho False getLine
+      putChar '\n'
+      if pass0 == pass1
+         then return $ Just pass0
+         else error "The passwords are not the same."
+         
    Just pass -> return $ Just pass
-      
+       
       
 withEcho :: Bool -> IO a -> IO a
 withEcho echo action = do
