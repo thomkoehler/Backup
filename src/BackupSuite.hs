@@ -13,8 +13,10 @@ import Control.Monad
 import System.FilePath.Glob(Pattern, compile)
 import Data.Aeson
 import Control.Lens.TH
+import Control.Lens
 import qualified Data.Yaml as Y
 import Data.ByteString(readFile)
+import Data.List(elemIndex)
 
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -104,5 +106,25 @@ decodeFile file = do
    case Y.decodeEither contents of
       Left err  -> error err
       Right bss -> return bss 
+         
+         
+loockupBackups :: Maybe String -> BackupSuite -> [Backup]
+loockupBackups maybeBackupName suite = 
+   case maybeBackupName of
+      Nothing -> suite ^. bsBackups
+      
+      Just name -> let (suiteName, backupName) = splitName name
+         in
+            if suiteName == "" || suiteName == suite ^. bsName
+               then filter (whereBackupName backupName) $ suite ^. bsBackups 
+               else []
+      
+   where 
+      whereBackupName name backup = name == backup ^. bName
+   
+      splitName name = case elemIndex '.' name of
+         Nothing -> ("", name)
+         Just idx -> (take idx name, drop idx name)
+           
          
 -----------------------------------------------------------------------------------------------------------------------

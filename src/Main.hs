@@ -22,14 +22,14 @@ main = do
    argv <- getArgs
    opts <- getOptions argv
    suites <- decodeFile $ optInput opts
-   forM_ suites doBackupSuite 
+   forM_ suites $ doBackupSuite opts 
    
 
-doBackupSuite :: BackupSuite -> IO ()
-doBackupSuite suite = do
+doBackupSuite :: Options -> BackupSuite -> IO ()
+doBackupSuite options suite = do
    let targetDir = suite ^. bsDir
    currTime <- currentTimeStr
-   forM_ (suite ^. bsBackups) $ doBackup targetDir currTime 
+   forM_ (loockupBackups (optBackupName options) suite) $ doBackup targetDir currTime 
 
 
 doBackup :: FilePath -> String -> Backup -> IO ()
