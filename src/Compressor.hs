@@ -12,12 +12,34 @@ import System.Exit(ExitCode(..))
 import Text.Printf(printf)
 import System.IO(hFlush, stdout, hGetEcho, stdin, hSetEcho)
 import Control.Exception.Base(bracket_)
+import Data.Maybe(isJust)
+
+import ZipArchive(addFile)
+import Options(Options(..), CompressType(..))
 
 -----------------------------------------------------------------------------------------------------------------------
 
-compress  :: [String] -> String -> Maybe String -> IO ()
-compress = compress_rar 
-
+compress  :: Options -> [String] -> String -> Maybe String -> IO ()
+compress options fileList archiveName mbPassword =
+   case optCompressType options of
+      CtRar -> compress_rar fileList archiveName mbPassword
+      CtInternal -> compress_internal fileList archiveName mbPassword
+        
+   
+compress_internal :: [String] -> String -> Maybe String -> IO ()
+compress_internal fileList archiveName mbPassword = do
+   let properAchiveName = archiveName ++ ".zip"
+   archiveExists <- doesFileExist properAchiveName
+   when archiveExists $ error $ printf "Archive \"%s\" allready exists." properAchiveName
+   when (isJust mbPassword) $ error $ printf "Password feature is not supported."
+   printf "Creating archive '%s'\n" properAchiveName
+   forM_ fileList $ \file -> do
+      printf "Adding '%s' ... " file   
+      addFile properAchiveName file
+      putStrLn "OK" 
+      
+   putStrLn "Done"
+   
 
 compress_rar :: [String] -> String -> Maybe String -> IO ()
 compress_rar fileList archiveName mbPassword = do

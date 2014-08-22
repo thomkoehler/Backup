@@ -21,13 +21,15 @@ executable Backup
                    bytestring,
                    time,
                    old-locale,
-                   directory
+                   directory,
+                   zip-archive
   ghc-options:     -Wall
   other-modules:   
                    BackupSuite,
                    DirScanner,
                    Compressor,
-                   Options
+                   Options,
+                   ZipArchive
 
 test-suite Test
   type:            exitcode-stdio-1.0
@@ -39,6 +41,7 @@ test-suite Test
   other-modules:   
                    BackupSuite,
                    Compressor,
-                   Options
+                   Options,
+                   ZipArchive
   hs-source-dirs:  src
 
