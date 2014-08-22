@@ -24,9 +24,18 @@ main :: IO()
 main = do
    argv <- getArgs
    opts <- getOptions argv
-   select [optHelp opts, optShowVersion opts] [printUsage, putStrLn versionStr] $ do 
-      suites <- decodeFile $ optInput opts
-      forM_ suites $ doBackupSuite opts 
+   select 
+      [
+         optHelp opts, 
+         optShowVersion opts
+      ] 
+      [
+         printUsage, 
+         putStrLn versionStr
+      ] 
+      $ do 
+         suites <- decodeFile $ optInput opts
+         forM_ suites $ doBackupSuite opts 
    
 
 doBackupSuite :: Options -> BackupSuite -> IO ()
@@ -56,11 +65,11 @@ currentTimeStr = do
    return $ formatTime defaultTimeLocale "_%y%m%d_%H%M%S" time
 
 
-select :: [Bool] -> [IO b] -> IO b -> IO b
-select [] _ fallBack = fallBack
-select _ [] fallBack = fallBack
-select (p:ps) (a:as) fallBack = if p 
-   then a
-   else select ps as fallBack
+select :: [Bool] -> [a] -> a -> a
+select [] _ def = def
+select _ [] def = def
+select (b:bs) (x:xs) def = if b 
+   then x
+   else select bs xs def
 
 -----------------------------------------------------------------------------------------------------------------------
