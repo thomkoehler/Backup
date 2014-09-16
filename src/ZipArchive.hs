@@ -14,7 +14,7 @@ addFile :: FilePath -> FilePath -> IO ()
 addFile archiveName file = do
    archiveExists <- doesFileExist archiveName
    if archiveExists
-      then do
+      then
          withFile archiveName ReadWriteMode $ \handle -> do
             contents <- B.hGetContents handle
             let archive = toArchive contents

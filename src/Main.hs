@@ -53,7 +53,7 @@ doBackup options targetDir currTime backup =
          if null fileList 
             then 
                printf "Backup %s is empty." $ backup ^. bName
-            else do
+            else
                compress options fileList (targetDir ++ "/" ++ (backup ^. bName) ++ currTime) $ backup ^. bPassword
       else
          printf "Backup %s is diabled." $ backup ^. bName       
