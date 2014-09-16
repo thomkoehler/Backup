@@ -16,6 +16,9 @@ import Data.List(sort)
 import BackupSuite
 import DirScanner
 
+{-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
+
+
 -----------------------------------------------------------------------------------------------------------------------
 
 testDir :: FilePath
