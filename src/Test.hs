@@ -11,8 +11,12 @@ import Test.Framework
 import System.Directory
 import System.FilePath.Glob(compile)
 import Data.List(sort)
+import Control.Monad(forM_)
+import Control.Exception(finally)
+import qualified Data.ByteString.Lazy as B
+import Codec.Archive.Zip(filesInArchive, toArchive)
 
-
+import ZipArchive(addFile)
 import BackupSuite
 import DirScanner
 
@@ -137,5 +141,24 @@ testBackupFileList backup expectedFileList = do
    expected <- mapM canonicalizePath expectedFileList 
    assertEqual (sort expected) fl
 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+test_zipArchive :: IO ()
+test_zipArchive =
+   finally 
+   (
+      do
+         forM_ expectedFiles $ addFile testArchive
+         contents <- B.readFile testArchive
+         let files = filesInArchive $ toArchive contents    
+         assertEqual (sort expectedFiles) (sort files)
+   )
+   (removeFile testArchive)
+
+   where
+      expectedFiles = ["dir0/file0.txt", "dir0/file0.cpp", "dir1/file1.cpp"]
+      testArchive = "../TestArchive.zip"
+   
 
 -----------------------------------------------------------------------------------------------------------------------
