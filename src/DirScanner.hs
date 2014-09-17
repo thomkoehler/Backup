@@ -31,11 +31,11 @@ instance ListFiles FilesSpec where
          else
             return fpset
             
-   listFiles (DirSpec dir pattern rec) fpset = do
+   listFiles (DirSpec dir pattern recursive) fpset = do
       dirExists <- doesDirectoryExist dir
       if dirExists
          then do
-            files <- listDir dir matchFilepath rec
+            files <- listDir dir matchFilepath recursive
             canonicalizedFiles <- mapM canonicalizePath files
             return $ fpset `Set.union` Set.fromList canonicalizedFiles
          else
@@ -50,14 +50,14 @@ instance ListFiles l => ListFiles [l] where
     
 
 instance ListFiles Backup where
-   listFiles  (Backup _ enabled _ includes excludes) fpset = do
-   if enabled
-      then do      
-         filesIncludes <- listFiles includes Set.empty
-         filesExcludes <- listFiles excludes Set.empty
-         return $ fpset `Set.union` (filesIncludes `Set.difference` filesExcludes)
-      else
-         return fpset 
+   listFiles  (Backup _ enabled _ includes excludes) fpset =
+      if enabled
+         then do      
+            filesIncludes <- listFiles includes Set.empty
+            filesExcludes <- listFiles excludes Set.empty
+            return $ fpset `Set.union` (filesIncludes `Set.difference` filesExcludes)
+         else
+            return fpset 
 
 
 list :: Backup -> IO [FilePath]
