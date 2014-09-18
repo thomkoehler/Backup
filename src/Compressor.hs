@@ -14,7 +14,6 @@ import Control.Exception.Base(bracket_)
 import Data.Maybe(isJust)
 import Codec.Archive.Zip(withArchive, addFiles)
 
---import ZipArchive(addFile)
 import Options(Options(..), CompressType(..))
 
 -----------------------------------------------------------------------------------------------------------------------
@@ -34,14 +33,6 @@ compressInternal fileList archiveName mbPassword = do
    when (isJust mbPassword) $ error $ printf "Password feature is not supported."
    printf "Creating archive '%s'\n" properAchiveName
    withArchive properAchiveName $ addFiles fileList
-   
-{--
-   forM_ fileList $ \file -> do
-      printf "Adding '%s' ... " file   
-      addFile properAchiveName file
-      putStrLn "OK"
---} 
-      
    putStrLn "Done"
    
 
