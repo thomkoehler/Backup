@@ -13,11 +13,9 @@ import Options
 import BackupSuite
 import DirScanner
 import Compressor
+import Version
 
 -----------------------------------------------------------------------------------------------------------------------
-
-versionStr :: String
-versionStr = "1.0.0"
 
 main :: IO()
 main = do
@@ -30,7 +28,7 @@ main = do
       ]
       [
          printUsage,
-         putStrLn versionStr
+         putStrLn version
       ]
       $ do
          suites <- decodeFile $ optInput opts

@@ -1,7 +1,7 @@
 name:           Backup
-version:        1.0
+version:        1.1
 cabal-version:  >=1.2
-build-type:     Simple
+build-type:     Custom
 author:         Koehler
 
 executable Backup
@@ -39,7 +39,9 @@ test-suite Test
                    HTF >= 0.13.1 && < 0.14,
                    directory -any
   other-modules:
-                   BackupSuite,
-                   Compressor,
-                   Options
+                  BackupSuite,
+                  DirScanner,
+                  Compressor,
+                  Options,
+                  System.Filesystem
   hs-source-dirs:  src

@@ -2,14 +2,9 @@
 module System.Filesystem(listDir) where
 
 
-import qualified Data.ByteString as B
-import System.Directory(getDirectoryContents, doesFileExist, doesDirectoryExist, canonicalizePath, getModificationTime)
-import System.FilePath((</>), takeFileName)
-import Control.Monad(forM, forM_, filterM, when)
-import System.IO(hFileSize, openFile, hClose, IOMode(ReadMode), hIsEOF, hSeek, SeekMode(RelativeSeek))
-import Text.Printf(printf)
-import Data.List(intersect, (\\))
-import Control.Exception.Base(bracket)
+import System.Directory
+import System.FilePath
+import Control.Monad
 
 
 listDir :: FilePath -> (FilePath -> Bool) -> Bool -> IO [FilePath]

@@ -36,7 +36,7 @@ simpleTestBackupSuite = BackupSuite
    {
       _bsName = "SimpleSuite",
       _bsDir = ".",
-      _bsBackups = 
+      _bsBackups =
       [
          Backup
             {
@@ -46,13 +46,13 @@ simpleTestBackupSuite = BackupSuite
                _bIncludeFilespecs =
                [
                   FileSpec "c:\\Temp\\Test.txt",
-                  DirSpec "c:\\Temp" (compile "*.*") True 
+                  DirSpec "c:\\Temp" (compile "*.*") True
                ],
-               
+
                _bExcludeFilespecs =
                [
                   FileSpec "c:\\Temp\\Test1.txt",
-                  DirSpec "c:\\Temp" (compile "*.cpp") True 
+                  DirSpec "c:\\Temp" (compile "*.cpp") True
                ]
             }
       ]
@@ -60,7 +60,7 @@ simpleTestBackupSuite = BackupSuite
 
 
 test_compileSimpleYaml :: IO ()
-test_compileSimpleYaml = do 
+test_compileSimpleYaml = do
    bs  <- decodeFile "Simple.xaml"
    assertEqual [simpleTestBackupSuite] bs
    return ()
@@ -68,7 +68,7 @@ test_compileSimpleYaml = do
 -----------------------------------------------------------------------------------------------------------------------
 
 test_simpleFile :: IO ()
-test_simpleFile = testBackupFileList simpleFileBackup ["dir0/file0.txt"] 
+test_simpleFile = testBackupFileList simpleFileBackup ["dir0/file0.txt"]
    where
       simpleFileBackup = Backup
          {
@@ -84,12 +84,12 @@ test_simpleFile = testBackupFileList simpleFileBackup ["dir0/file0.txt"]
 
 
 test_dir :: IO ()
-test_dir = testBackupFileList dirBackup 
+test_dir = testBackupFileList dirBackup
    [
-      "dir0/file0.txt", 
-      "dir0/file0.cpp", 
-      "dir1/file1.txt", 
-      "dir1/file1.cpp", 
+      "dir0/file0.txt",
+      "dir0/file0.cpp",
+      "dir1/file1.txt",
+      "dir1/file1.cpp",
       "Simple.xaml"
    ]
    where
@@ -102,13 +102,13 @@ test_dir = testBackupFileList dirBackup
             [
                DirSpec "." (compile "*.*") True
             ],
-            _bExcludeFilespecs = 
+            _bExcludeFilespecs =
             [
                DirSpec ".HTF" (compile "*.*") True
             ]
          }
-         
-         
+
+
 test_dirExclude :: IO ()
 test_dirExclude = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.txt"]
    where
@@ -121,7 +121,7 @@ test_dirExclude = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.tx
             [
                DirSpec "." (compile "*.*") True
             ],
-            _bExcludeFilespecs = 
+            _bExcludeFilespecs =
             [
                DirSpec ".HTF" (compile "*.*") True,
                DirSpec "." (compile "*.cpp") True,
@@ -133,7 +133,7 @@ test_dirExclude = testBackupFileList dirBackup ["dir0/file0.txt", "dir1/file1.tx
 testBackupFileList :: Backup -> [FilePath] -> IO ()
 testBackupFileList backup expectedFileList = do
    fl <- list backup
-   expected <- mapM canonicalizePath expectedFileList 
+   expected <- mapM canonicalizePath expectedFileList
    assertEqual (sort expected) fl
 
 -----------------------------------------------------------------------------------------------------------------------

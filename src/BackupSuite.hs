@@ -8,7 +8,6 @@
 module BackupSuite where
 
 import Prelude hiding(readFile)
-import Control.Applicative
 import Control.Monad
 import System.FilePath.Glob(Pattern, compile)
 import Data.Aeson
