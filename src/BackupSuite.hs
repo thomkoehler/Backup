@@ -20,10 +20,10 @@ import Data.List(elemIndex)
 
 -----------------------------------------------------------------------------------------------------------------------
 
-data FilesSpec 
+data FilesSpec
    = FileSpec
       {
-         _fsFile :: !FilePath      
+         _fsFile :: !FilePath
       }
    | DirSpec
       {
@@ -65,66 +65,66 @@ instance FromJSON FilesSpec where
    parseJSON (Object v) = do
       filespecType :: String <- v .: "type"
       case filespecType of
-         "dir"  -> do 
+         "dir"  -> do
             n <- v .: "name"
             p <- v .: "pattern"
-            r <- v .:? "recursiv" .!= False 
+            r <- v .:? "recursiv" .!= False
             return $ DirSpec n (compile p) r
-            
+
          "file" -> FileSpec <$> v .: "name"
-         
+
          _      -> error $ "type " ++ filespecType ++ "is unknown."
-       
+
    parseJSON _          = mzero
 
 
 instance FromJSON Backup where
-   parseJSON (Object v) = 
-      Backup <$> 
-         v .: "name" <*> 
-         v .:? "enabled" .!= True <*> 
+   parseJSON (Object v) =
+      Backup <$>
+         v .: "name" <*>
+         v .:? "enabled" .!= True <*>
          v .:? "password" .!= Nothing <*>
-         v .: "include" <*> 
+         v .: "include" <*>
          v .:? "exclude" .!= []
-                                
-   parseJSON _          = mzero 
+
+   parseJSON _          = mzero
 
 
 instance FromJSON BackupSuite where
-   parseJSON (Object v) = 
+   parseJSON (Object v) =
       BackupSuite <$>
          v .:? "name" .!= "" <*>
-         v .:? "dir" .!= "." <*> 
-         v .: "backups" 
-         
-   parseJSON _          = mzero 
-        
-         
+         v .:? "dir" .!= "." <*>
+         v .: "backups"
+
+   parseJSON _          = mzero
+
+
 decodeFile :: FilePath -> IO [BackupSuite]
 decodeFile file = do
    contents <- readFile file
    case Y.decodeEither contents of
       Left err  -> error err
-      Right bss -> return bss 
-         
-         
+      Right bss -> return bss
+
+
 loockupBackups :: Maybe String -> BackupSuite -> [Backup]
-loockupBackups maybeBackupName suite = 
+loockupBackups maybeBackupName suite =
    case maybeBackupName of
       Nothing -> suite ^. bsBackups
-      
+
       Just name -> let (suiteName, backupName) = splitName name
          in
             if suiteName == "" || suiteName == suite ^. bsName
-               then filter (whereBackupName backupName) $ suite ^. bsBackups 
+               then filter (whereBackupName backupName) $ suite ^. bsBackups
                else []
-      
-   where 
+
+   where
       whereBackupName name backup = name == backup ^. bName
-   
+
       splitName name = case elemIndex '.' name of
          Nothing -> ("", name)
          Just idx -> (take idx name, drop idx name)
-           
-         
+
+
 -----------------------------------------------------------------------------------------------------------------------

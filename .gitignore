@@ -1,3 +1,4 @@
+ .stack-work/
 .dist-buildwrapper/
 .cabal-sandbox/
 cabal.sandbox.config

@@ -8,7 +8,6 @@ import Text.Printf(printf)
 import Control.Monad(forM_)
 import Control.Lens
 import Data.Time
-import System.Locale(defaultTimeLocale)
 
 import Options
 import BackupSuite
@@ -24,39 +23,39 @@ main :: IO()
 main = do
    argv <- getArgs
    opts <- getOptions argv
-   select 
+   select
       [
-         optHelp opts, 
+         optHelp opts,
          optShowVersion opts
-      ] 
+      ]
       [
-         printUsage, 
+         printUsage,
          putStrLn versionStr
-      ] 
-      $ do 
+      ]
+      $ do
          suites <- decodeFile $ optInput opts
-         forM_ suites $ doBackupSuite opts 
-   
+         forM_ suites $ doBackupSuite opts
+
 
 doBackupSuite :: Options -> BackupSuite -> IO ()
 doBackupSuite options suite = do
    let targetDir = suite ^. bsDir
    currTime <- currentTimeStr
-   forM_ (loockupBackups (optBackupName options) suite) $ doBackup options targetDir currTime 
+   forM_ (loockupBackups (optBackupName options) suite) $ doBackup options targetDir currTime
 
 
 doBackup :: Options -> FilePath -> String -> Backup -> IO ()
-doBackup options targetDir currTime backup = 
+doBackup options targetDir currTime backup =
    if backup ^. bEnabled
       then do
          fileList <- list backup
-         if null fileList 
-            then 
+         if null fileList
+            then
                printf "Backup %s is empty." $ backup ^. bName
             else
                compress options fileList (targetDir ++ "/" ++ (backup ^. bName) ++ currTime) $ backup ^. bPassword
       else
-         printf "Backup %s is diabled." $ backup ^. bName       
+         printf "Backup %s is diabled." $ backup ^. bName
 
 
 currentTimeStr :: IO String
@@ -68,7 +67,7 @@ currentTimeStr = do
 select :: [Bool] -> [a] -> a -> a
 select [] _ def = def
 select _ [] def = def
-select (b:bs) (x:xs) def = if b 
+select (b:bs) (x:xs) def = if b
    then x
    else select bs xs def
 
