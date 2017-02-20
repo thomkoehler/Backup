@@ -3,7 +3,6 @@
 module Options(getOptions, Options(..), CompressType(..), printUsage) where
 
 import System.Console.GetOpt
-import Data.Maybe(fromMaybe)
 import Data.List(isPrefixOf)
 
 -----------------------------------------------------------------------------------------------------------------------
@@ -38,18 +37,18 @@ defaultOptions = Options
 options :: [OptDescr (Options -> Options)]
 options =
    [
-      Option "i" [] (OptArg ((\f opts -> opts { optInput = f }) . fromMaybe "input") "FILE") "XAML backup definition file name (default Backup.xaml)",
+      Option "i" ["input"] (ReqArg (\f opts -> opts { optInput = f }) "input") "XAML backup definition file name (default Backup.xaml)",
       Option "h" ["help"] (NoArg (\opts -> opts { optHelp = True })) "show usage",
       Option "v" ["version"] (NoArg (\opts -> opts { optShowVersion = True })) "show version info",
       Option
          "c"
          ["compress"]
-         (OptArg ((\f opts -> opts { optCompressType = read f }) . fromMaybe "compress") "COMPRESS-TYPE")
+         (ReqArg (\f opts -> opts { optCompressType = read f }) "compress")
          "compress type (Rar|Internal, default Rar)",
       Option
          "b"
          ["backup"]
-         (OptArg ((\f opts -> opts { optBackupName = Just f }) . fromMaybe "backup") "SUITE-NAME.BACKUP-NAME")
+         (ReqArg (\f opts -> opts { optBackupName = Just f }) "backup")
          "backup selection (default all)"
    ]
 
